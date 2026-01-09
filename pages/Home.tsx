@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -87,12 +88,12 @@ const Home: React.FC = () => {
             <ParticlesBackground />
         </div>
 
-        {/* Blobs */}
-        <div className="absolute top-1/4 -left-20 w-72 h-72 bg-rose-500/20 rounded-full blur-[100px] animate-blob z-[3]" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000 z-[3]" />
+        {/* Blobs - adjusted for mobile */}
+        <div className="absolute top-1/4 -left-20 w-48 h-48 md:w-72 md:h-72 bg-rose-500/20 rounded-full blur-[80px] md:blur-[100px] animate-blob z-[3]" />
+        <div className="absolute bottom-1/4 -right-20 w-64 h-64 md:w-96 md:h-96 bg-purple-500/20 rounded-full blur-[80px] md:blur-[100px] animate-blob animation-delay-2000 z-[3]" />
 
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8 text-center lg:text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -102,18 +103,18 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-rose-500 font-medium tracking-[0.2em] uppercase text-sm mb-4"
+                className="text-rose-500 font-medium tracking-[0.2em] uppercase text-xs md:text-sm mb-4"
               >
                 Senior Software Engineer
               </motion.h2>
-              <h1 className="text-6xl md:text-8xl font-black text-white leading-none mb-4 tracking-tighter">
+              <h1 className="text-5xl md:text-8xl font-black text-white leading-none mb-4 tracking-tighter">
                 KOUSHIK
               </h1>
               <motion.p 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-2xl md:text-3xl text-neutral-400 font-light leading-tight"
+                className="text-xl md:text-3xl text-neutral-400 font-light leading-tight"
               >
                 Building scalable solutions that move <span className="text-white font-semibold">businesses forward</span>.
               </motion.p>
@@ -123,7 +124,7 @@ const Home: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-neutral-400 text-lg max-w-lg leading-relaxed"
+              className="text-neutral-400 text-base md:text-lg max-w-lg leading-relaxed mx-auto lg:mx-0"
             >
               I craft high-performance web applications, architect robust backend systems, 
               and lead engineering teams. With 10+ years in the industry, I specialize in 
@@ -134,26 +135,28 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-col md:flex-row flex-wrap gap-4 justify-center lg:justify-start"
             >
               <NavLink
                 to="/work"
-                className="group relative px-8 py-4 bg-rose-600 text-white rounded-full font-bold overflow-hidden shadow-lg shadow-rose-500/25"
+                className="group relative px-8 py-4 bg-rose-600 text-white rounded-full font-bold overflow-hidden shadow-lg shadow-rose-500/25 w-full md:w-auto"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center">
+                <span className="relative flex items-center justify-center">
                   Explore My Work <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                 </span>
               </NavLink>
-              <NavLink
-                to="/contact"
-                className="px-8 py-4 border border-neutral-700 text-white rounded-full font-bold hover:bg-neutral-900 transition-colors"
-              >
-                Let's Connect
-              </NavLink>
-              <button className="p-4 border border-neutral-700 rounded-full text-neutral-400 hover:text-white hover:border-white transition-colors" title="Download CV">
-                <Download size={20} />
-              </button>
+              <div className="flex gap-4 w-full md:w-auto">
+                <NavLink
+                  to="/contact"
+                  className="flex-1 px-8 py-4 border border-neutral-700 text-white rounded-full font-bold hover:bg-neutral-900 transition-colors text-center"
+                >
+                  Let's Connect
+                </NavLink>
+                <button className="px-6 py-4 border border-neutral-700 rounded-full text-neutral-400 hover:text-white hover:border-white transition-colors flex items-center justify-center" title="Download CV">
+                  <Download size={20} />
+                </button>
+              </div>
             </motion.div>
             
             {/* Command Palette Hint */}
@@ -226,7 +229,7 @@ const Home: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-8"
           >
             {[
               { val: '10+', label: 'Years Experience' },
@@ -235,7 +238,7 @@ const Home: React.FC = () => {
               { val: '25+', label: 'Technologies' },
             ].map((stat, i) => (
               <motion.div key={i} variants={itemVariants} className="text-center md:text-left">
-                <div className="text-4xl font-black text-white mb-1">{stat.val}</div>
+                <div className="text-3xl md:text-4xl font-black text-white mb-1">{stat.val}</div>
                 <div className="text-xs text-neutral-400 uppercase tracking-wider">{stat.label}</div>
               </motion.div>
             ))}
@@ -244,16 +247,16 @@ const Home: React.FC = () => {
       </div>
 
       {/* LIVE CODE DEMO */}
-      <section id="demo" className="py-24 bg-neutral-950 border-b border-neutral-800 scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <section id="demo" className="py-16 md:py-24 bg-neutral-950 border-b border-neutral-800 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
            <motion.div
              initial={{ opacity: 0, x: -20 }}
              whileInView={{ opacity: 1, x: 0 }}
              viewport={{ once: true }}
              transition={{ duration: 0.6 }}
            >
-              <h2 className="text-4xl font-black text-white mb-6">Clean Code. <br/><span className="text-rose-500">Elegant Solutions.</span></h2>
-              <p className="text-neutral-400 text-lg mb-8 leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-6">Clean Code. <br/><span className="text-rose-500">Elegant Solutions.</span></h2>
+              <p className="text-neutral-400 text-base md:text-lg mb-8 leading-relaxed">
                 I believe that code should be as readable as prose. My development philosophy centers on creating 
                 maintainable, self-documenting systems that scale effortlessly. 
               </p>
@@ -286,17 +289,17 @@ const Home: React.FC = () => {
       </section>
 
       {/* FEATURED WORK - CINEMATIC CARDS */}
-      <section id="work" className="py-24 bg-neutral-950 scroll-mt-20 overflow-hidden">
+      <section id="work" className="py-16 md:py-24 bg-neutral-950 scroll-mt-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex justify-between items-end mb-16"
+            className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-4"
           >
             <div>
-              <h2 className="text-4xl font-black text-white mb-4">Featured Work</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Featured Work</h2>
               <p className="text-neutral-400 max-w-xl">
                 A selection of projects that demonstrate ability to solve complex problems at scale.
               </p>
@@ -325,11 +328,11 @@ const Home: React.FC = () => {
       </section>
 
       {/* LATEST ARTICLES */}
-      <section id="articles" className="py-24 bg-neutral-900 border-t border-neutral-800 scroll-mt-20">
+      <section id="articles" className="py-16 md:py-24 bg-neutral-900 border-t border-neutral-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-end mb-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-4">
             <div>
-              <h2 className="text-4xl font-black text-white mb-4">Latest Insights</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Latest Insights</h2>
               <p className="text-neutral-400">Thoughts on engineering, design, and product.</p>
             </div>
             <NavLink to="/articles" className="hidden md:flex items-center text-rose-500 font-bold hover:text-white transition-colors">
@@ -356,11 +359,17 @@ const Home: React.FC = () => {
               </SpotlightCard>
             ))}
           </div>
+          
+          <div className="mt-12 text-center md:hidden">
+             <NavLink to="/articles" className="inline-flex items-center text-rose-500 font-bold hover:text-white transition-colors">
+              Read All Articles <ArrowRight size={20} className="ml-2" />
+            </NavLink>
+          </div>
         </div>
       </section>
 
       {/* SKILLS SNAPSHOT */}
-      <section id="skills" className="py-24 bg-neutral-950 border-t border-neutral-800 scroll-mt-20">
+      <section id="skills" className="py-16 md:py-24 bg-neutral-950 border-t border-neutral-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -368,7 +377,7 @@ const Home: React.FC = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-black text-white mb-4">Technical Expertise</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Technical Expertise</h2>
             <p className="text-neutral-400">The tools I wield to build excellence.</p>
           </motion.div>
 
@@ -423,14 +432,14 @@ const Home: React.FC = () => {
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="py-24 bg-neutral-900 border-t border-neutral-800 relative overflow-hidden scroll-mt-20">
+      <section id="testimonials" className="py-16 md:py-24 bg-neutral-900 border-t border-neutral-800 relative overflow-hidden scroll-mt-20">
          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-rose-900/5 to-transparent" />
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             <motion.h2 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-4xl font-black text-white mb-16 text-center"
+              className="text-3xl md:text-4xl font-black text-white mb-16 text-center"
             >
               Kind Words
             </motion.h2>
@@ -461,7 +470,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* CTA SECTION */}
-      <section id="cta" className="py-32 bg-neutral-950 relative border-t border-neutral-800 scroll-mt-20">
+      <section id="cta" className="py-24 md:py-32 bg-neutral-950 relative border-t border-neutral-800 scroll-mt-20">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -469,10 +478,10 @@ const Home: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto px-6 text-center"
         >
-          <h2 className="text-5xl md:text-6xl font-black text-white mb-8">
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
             Ready to Build Something <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-600">Exceptional?</span>
           </h2>
-          <p className="text-xl text-neutral-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-neutral-400 mb-12 max-w-2xl mx-auto">
             Whether you need a technical partner for your next big idea or an experienced leader for your engineering team, I'm just a message away.
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">

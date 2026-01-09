@@ -98,16 +98,16 @@ const About: React.FC = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
+            className="space-y-8 text-center md:text-left"
           >
             <div>
               <h1 className="text-4xl md:text-6xl font-black text-white mb-2 tracking-tight">
                 KOUSHIK
               </h1>
-              <h2 className="text-xl text-rose-500 font-medium tracking-wide">SOFTWARE ENGINEER & ARCHITECT</h2>
+              <h2 className="text-lg md:text-xl text-rose-500 font-medium tracking-wide">SOFTWARE ENGINEER & ARCHITECT</h2>
             </div>
 
-            <div className="space-y-6 text-neutral-400 leading-relaxed text-lg">
+            <div className="space-y-6 text-neutral-400 leading-relaxed text-base md:text-lg">
               <p>
                 My journey into software development started with a simple curiosity: how do things work? 
                 I wrote my first line of code 10 years ago, and I immediately fell in love with the power to create.
@@ -143,7 +143,7 @@ const About: React.FC = () => {
       </div>
 
       {/* VALUES SECTION */}
-      <section className="py-20 bg-neutral-900 border-y border-neutral-800">
+      <section className="py-16 md:py-20 bg-neutral-900 border-y border-neutral-800">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div 
             initial="hidden"
@@ -226,7 +226,7 @@ const About: React.FC = () => {
                 
                 <div className="mb-2 flex flex-col md:flex-row md:items-center justify-between">
                   <h3 className="text-2xl font-bold text-white group-hover:text-rose-500 transition-colors">{exp.role}</h3>
-                  <span className="text-rose-500 font-mono text-sm bg-rose-500/10 px-3 py-1 rounded border border-rose-500/20">{exp.period}</span>
+                  <span className="text-rose-500 font-mono text-sm bg-rose-500/10 px-3 py-1 rounded border border-rose-500/20 w-fit mt-1 md:mt-0">{exp.period}</span>
                 </div>
                 
                 <div className="text-lg text-neutral-300 font-medium mb-4">{exp.company}</div>

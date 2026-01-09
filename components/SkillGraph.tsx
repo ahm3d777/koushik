@@ -83,9 +83,18 @@ const SkillGraph: React.FC = () => {
   const relatedProjects = selectedNode 
     ? PROJECTS.filter(p => p.tech.some(t => selectedNode.label.includes(t) || t.includes(selectedNode.label.split('/')[0])))
     : [];
+    
+  // Group nodes for mobile list view
+  const groups = {
+      frontend: NODES.filter(n => n.group === 'frontend' && n.id !== 'frontend'),
+      backend: NODES.filter(n => n.group === 'backend' && n.id !== 'backend'),
+      cloud: NODES.filter(n => n.group === 'cloud' && n.id !== 'cloud')
+  };
 
   return (
-    <div className="relative w-full h-[600px] bg-neutral-900/50 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl">
+    <>
+    {/* Desktop View: Interactive Graph */}
+    <div className="hidden md:block relative w-full h-[600px] bg-neutral-900/50 rounded-2xl border border-neutral-800 overflow-hidden shadow-2xl">
       <div className="absolute top-4 left-4 z-10">
         <h3 className="text-white font-bold text-lg flex items-center gap-2">
           <Terminal size={18} className="text-rose-500" />
@@ -125,11 +134,6 @@ const SkillGraph: React.FC = () => {
 
       {/* Interactive Nodes Layer */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* We use a container that matches the SVG viewBox aspect ratio/sizing logic approximately 
-            or just map percentage positions if responsive. 
-            For simplicity in this constrained environment, we assume the viewBox matches container size largely 
-            or we use absolute positioning percentages based on 800x650.
-        */}
         {NODES.map((node) => (
           <motion.button
             key={node.id}
@@ -157,7 +161,7 @@ const SkillGraph: React.FC = () => {
               <div className="w-2 h-2 bg-neutral-500 rounded-full" />
             )}
             
-            {/* Label Tooltip (Always visible for categories, hover for others) */}
+            {/* Label Tooltip */}
             <div className={`absolute top-full mt-2 whitespace-nowrap px-2 py-1 rounded bg-black/80 text-xs font-medium text-white backdrop-blur-sm pointer-events-none transition-opacity ${
                 selectedNodeId === node.id || ['core', 'frontend', 'backend', 'cloud'].includes(node.group) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
             }`}>
@@ -230,6 +234,35 @@ const SkillGraph: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
+    
+    {/* Mobile View: Clean List */}
+    <div className="md:hidden space-y-8">
+        {Object.entries(groups).map(([groupName, groupNodes]) => (
+            <div key={groupName} className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+                <h3 className="text-lg font-bold text-white capitalize mb-4 flex items-center gap-2">
+                    {groupName === 'frontend' && <Code size={20} className="text-rose-500"/>}
+                    {groupName === 'backend' && <Server size={20} className="text-rose-500"/>}
+                    {groupName === 'cloud' && <Cloud size={20} className="text-rose-500"/>}
+                    {groupName}
+                </h3>
+                <div className="space-y-4">
+                    {groupNodes.map(node => (
+                        <div key={node.id}>
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-sm font-medium text-neutral-300">{node.label}</span>
+                                <span className="text-xs font-bold text-rose-500">{node.level}%</span>
+                            </div>
+                            <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+                                <div className="h-full bg-neutral-600 rounded-full" style={{ width: `${node.level}%` }} />
+                            </div>
+                            <p className="text-xs text-neutral-500 mt-1">{node.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+    </>
   );
 };
 

@@ -109,9 +109,9 @@ const App: React.FC = () => {
                    You've discovered the secret developer mode. While there are no infinite lives here, you've definitely earned some cool points.
                  </p>
                  <div className="bg-neutral-950 p-4 rounded-lg font-mono text-xs text-green-400 mb-6 text-left">
-  &gt; ACCESS_LEVEL: ADMIN<br/>
-  &gt; UNLOCKING_HIDDEN_ASSETS...<br/>
-  &gt; CONFETTI_CANNON_READY
+  {'>'} ACCESS_LEVEL: ADMIN<br/>
+  {'>'} UNLOCKING_HIDDEN_ASSETS...<br/>
+  {'>'} CONFETTI_CANNON_READY
 </div>
                  <button 
                    onClick={() => setKonamiActive(false)}
