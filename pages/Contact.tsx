@@ -79,66 +79,26 @@ const HoloPanel = ({
       whileHover={{ scale: 1.1, zIndex: 50 }}
       transition={{ delay: delay, duration: 0.5 }}
       onClick={onClick}
-      className={`absolute ${posStyles} group cursor-pointer z-20 outline-none`}
+      className={`absolute ${posStyles} group cursor-pointer z-20 outline-none w-32 md:w-auto`}
     >
-      <div className={`relative p-6 bg-neutral-900/40 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 ${isActive ? 'bg-rose-500/20 border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.4)]' : 'hover:bg-white/5 hover:border-white/30'}`}>
+      <div className={`relative p-4 md:p-6 bg-neutral-900/40 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 ${isActive ? 'bg-rose-500/20 border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.4)]' : 'hover:bg-white/5 hover:border-white/30'}`}>
         
         {/* Holographic Scanline */}
         <div className="absolute inset-0 overflow-hidden rounded-2xl opacity-20 pointer-events-none">
             <div className="w-full h-[200%] bg-gradient-to-b from-transparent via-rose-500/30 to-transparent animate-shimmer" style={{ backgroundSize: '100% 50%' }} />
         </div>
 
-        <div className="flex flex-col items-center gap-3">
-          <div className={`p-3 rounded-xl transition-colors ${isActive ? 'bg-rose-500 text-white' : 'bg-neutral-800 text-neutral-400 group-hover:text-white'}`}>
-            <Icon size={24} />
+        <div className="flex flex-col items-center gap-2 md:gap-3">
+          <div className={`p-2 md:p-3 rounded-xl transition-colors ${isActive ? 'bg-rose-500 text-white' : 'bg-neutral-800 text-neutral-400 group-hover:text-white'}`}>
+            <Icon size={20} className="md:w-6 md:h-6" />
           </div>
           <div className="text-center">
-             <div className={`font-bold text-sm tracking-wider uppercase ${isActive ? 'text-rose-400' : 'text-white'}`}>{label}</div>
-             <div className="text-[10px] text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{subLabel}</div>
+             <div className={`font-bold text-xs md:text-sm tracking-wider uppercase ${isActive ? 'text-rose-400' : 'text-white'}`}>{label}</div>
+             <div className="text-[10px] text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden md:block">{subLabel}</div>
           </div>
         </div>
       </div>
     </motion.button>
-  );
-};
-
-const ConnectionBeam = ({ fromX, fromY, toX, toY, isActive }: { fromX: number, fromY: number, toX: number, toY: number, isActive: boolean }) => {
-  return (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
-      <defs>
-        <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="transparent" />
-          <stop offset="50%" stopColor="#f43f5e" />
-          <stop offset="100%" stopColor="transparent" />
-        </linearGradient>
-      </defs>
-      <motion.path
-        d={`M${fromX},${fromY} L${toX},${toY}`}
-        stroke="url(#beamGrad)"
-        strokeWidth={isActive ? 2 : 1}
-        fill="none"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ 
-          pathLength: 1, 
-          opacity: isActive ? 1 : 0.2,
-          strokeDasharray: isActive ? "10 5" : "0 0"
-        }}
-        transition={{ duration: 1 }}
-      />
-      {isActive && (
-        <motion.circle
-            r="3"
-            fill="#fff"
-            filter="url(#glow)"
-        >
-            <animateMotion 
-                dur="1.5s" 
-                repeatCount="indefinite" 
-                path={`M${fromX},${fromY} L${toX},${toY}`} 
-            />
-        </motion.circle>
-      )}
-    </svg>
   );
 };
 
@@ -242,14 +202,23 @@ const Contact: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // 3D Parallax logic
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 3D Parallax logic (disabled on mobile)
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useTransform(y, [-1, 1], [5, -5]);
   const rotateY = useTransform(x, [-1, 1], [-5, 5]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (isMobile) return; // Disable parallax on mobile
     const rect = containerRef.current?.getBoundingClientRect();
     if (rect) {
       const width = rect.width;
@@ -318,8 +287,8 @@ const Contact: React.FC = () => {
 
       {/* 3. The 3D Chamber Content */}
       <motion.div 
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="relative w-full max-w-5xl h-[600px] md:h-[700px] flex items-center justify-center"
+        style={!isMobile ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
+        className="relative w-full max-w-5xl h-[600px] md:h-[700px] flex items-center justify-center transform-gpu"
       >
          
          {/* Center Core: Avatar */}
@@ -337,7 +306,7 @@ const Contact: React.FC = () => {
              <div className="absolute inset-0 bg-rose-500 blur-[60px] opacity-40 animate-pulse" />
 
              {/* Avatar Image */}
-             <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-white/20 relative z-10 shadow-[0_0_30px_rgba(244,63,94,0.5)] bg-black">
+             <div className="w-24 h-24 md:w-48 md:h-48 rounded-full overflow-hidden border-2 border-white/20 relative z-10 shadow-[0_0_30px_rgba(244,63,94,0.5)] bg-black">
                 <img 
                     src="https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=400&q=80" 
                     alt="Koushik" 
